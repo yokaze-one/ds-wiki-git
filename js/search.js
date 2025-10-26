@@ -3,15 +3,21 @@
 // Fuse.jsを読み込む (CDNから)
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('search-input');
-    const searchResults = document.getElementById('search-results');
+    // 検索結果を表示するコンテナのIDを確認してください (ここではsidebar-menuの下の要素を想定)
+    const searchResults = document.getElementById('search-results'); 
+    
     // Wikiメニューのヘッダーとリストも取得
     const wikiMenuHeader = document.getElementById('wiki-menu-header');
-    const wikiMenu = document.getElementById('wiki-menu');
+    
+    // 従来のメニューコンテンツ（ULタグなどを含む親要素を想定）
+    // あなたのHTML構造に合わせてIDまたはクラスを修正してください
+    const sidebarContentBody = document.querySelector('.sidebar-content-body'); 
     
     let fuse;
 
     // 検索インデックス (JSON) を読み込む
-    fetch('/index.json')
+    // 【重要修正】GitHub Pagesのサブディレクトリに対応するため、パスにリポジトリ名を含めます
+    fetch('/ds-wiki-git/index.json') // ★★★ この行が修正されています ★★★
         .then(response => {
             if (!response.ok) {
                 console.error('Failed to load index.json:', response.statusText);
@@ -34,17 +40,24 @@ document.addEventListener('DOMContentLoaded', function() {
     // 入力イベントリスナー
     searchInput.addEventListener('input', function() {
         const query = searchInput.value.trim();
+        
+        // searchResultsの要素がHTMLに存在するか確認
+        if (!searchResults) {
+             console.error('Error: Element with ID "search-results" not found.');
+             return;
+        }
+
         searchResults.innerHTML = ''; // 結果をクリア
 
         // 検索結果の表示/非表示を切り替える
         if (query.length > 0) {
             searchResults.style.display = 'block';
-            wikiMenuHeader.style.display = 'none'; // 通常メニューを非表示
-            wikiMenu.style.display = 'none';
+            if (wikiMenuHeader) wikiMenuHeader.style.display = 'none'; // 通常メニューを非表示
+            if (sidebarContentBody) sidebarContentBody.style.display = 'none'; 
         } else {
             searchResults.style.display = 'none';
-            wikiMenuHeader.style.display = 'block'; // 通常メニューを再表示
-            wikiMenu.style.display = 'block';
+            if (wikiMenuHeader) wikiMenuHeader.style.display = 'block'; // 通常メニューを再表示
+            if (sidebarContentBody) sidebarContentBody.style.display = 'block'; 
         }
 
         if (query.length === 0 || !fuse) {
