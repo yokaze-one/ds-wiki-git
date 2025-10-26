@@ -1,0 +1,129 @@
+/* assets/css/custom.css */
+
+/* -------------------- 基本設定 -------------------- */
+body {
+    background-color: #f7f7f7; 
+    font-family: 'メイリオ', Meiryo, 'Hiragino Kaku Gothic Pro', sans-serif;
+    line-height: 1.6;
+    margin: 0; 
+}
+a {
+    color: #0000CC;
+    text-decoration: none;
+}
+a:hover {
+    color: #CC0000;
+    text-decoration: underline;
+}
+
+/* -------------------- サイト全体/レスポンシブ基盤 -------------------- */
+#wrapper {
+    width: 100%;
+    margin: 0;
+    border: 1px solid #000; 
+    background-color: white;
+    box-sizing: border-box; 
+    display: flex;
+    min-height: 100vh;
+    flex-direction: row; /* PC: サイドバーが左 */
+}
+
+/* -------------------- サイドバー (PC: 左側) -------------------- */
+#sidebar-menu {
+    width: 220px;
+    background-color: #f7f7f7; 
+    border-right: 1px solid #000; 
+    padding: 10px 10px 20px 10px;
+    font-size: 0.9em;
+    flex-shrink: 0;
+}
+#sidebar-menu h3 {
+    margin: 0 0 5px 0;
+    padding: 5px 0;
+    font-size: 1.2em;
+    border-bottom: 2px solid #000;
+}
+#sidebar-menu h4 {
+    margin: 10px 0 5px 0;
+    padding: 0;
+    border-bottom: 1px solid #000; 
+    font-weight: bold;
+}
+#search-input {
+    border: 1px solid #aaa;
+    background-color: #fff;
+    padding: 3px;
+    font-size: 0.9em;
+}
+
+/* -------------------- サイドバーコンテンツ（Markdownからの変換部分） -------------------- */
+.sidebar-content-body {
+    padding: 5px 0;
+}
+/* Markdown リスト (メニュー) */
+.sidebar-content-body ul {
+    list-style: none; 
+    padding-left: 10px;
+    margin: 5px 0;
+}
+.sidebar-content-body ul ul {
+    padding-left: 15px;
+}
+/* Markdown テーブル */
+.sidebar-content-body table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85em;
+    margin: 10px 0 15px 0;
+    border: 1px solid #000; 
+}
+.sidebar-content-body td {
+    padding: 3px 5px;
+    border: 1px solid #000; 
+}
+.sidebar-content-body tr:nth-child(odd) {
+    background-color: #f0f0f0; 
+}
+/* 検索結果リスト */
+#search-results {
+    list-style: none;
+    padding-left: 0 !important;
+    margin-top: 5px;
+    display: none; 
+}
+
+/* -------------------- メインコンテンツ -------------------- */
+#main-content {
+    flex-grow: 1;
+    padding: 25px;
+}
+.wiki-article h1 {
+    font-size: 1.8em;
+    border-bottom: 2px solid #000; 
+    padding-bottom: 5px;
+    margin-top: 0;
+}
+.wiki-article h2 {
+    font-size: 1.4em;
+    border-bottom: 1px dashed #aaa; 
+    margin-top: 1.5em;
+    padding-bottom: 2px;
+}
+
+/* -------------------- スマートフォン対応 (768px以下) -------------------- */
+@media (max-width: 768px) {
+    #wrapper {
+        flex-direction: column; 
+        border: none; 
+    }
+    #sidebar-menu {
+        width: 100%;
+        border-right: none;
+        border-top: 1px solid #000; 
+        order: 2; /* コンテンツの下へ移動 */
+    }
+    #main-content {
+        order: 1; 
+        padding: 15px;
+    }
+}

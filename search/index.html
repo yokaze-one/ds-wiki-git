@@ -1,2 +1,142 @@
-<!doctype html><html lang=ja-jp><head><meta charset=utf-8><title>検索結果 | DS-Wiki</title><meta name=viewport content="width=device-width,initial-scale=1"><link rel=stylesheet href=../css/custom.css></head><body><div id=wrapper><aside id=sidebar-menu><nav><h3><a href=../>DS-Wiki</a></h3><form action=../search/ method=GET id=search-form><div id=search-container><input type=text name=q id=search-input placeholder=記事を検索... style=width:90%;padding:5px>
-<button type=submit style=display:none>検索</button></div></form><h4 id=wiki-menu-header>Wiki セクション</h4><div class=sidebar-content-body><h2 id=ナビゲーションメニュー>ナビゲーションメニュー</h2><ul><li><a href=../>トップページ</a></li><li><a href=../country/>国家一覧</a><ul><li><a href=../country/shinsyo/>曋祥</a></li></ul></li></ul><hr><h2 id=wiki情報テーブル>Wiki情報（テーブル）</h2><p>(こんなこともできるよ)</p><table><thead><tr><th style=text-align:left>項目</th><th style=text-align:right>値</th></tr></thead><tbody><tr><td style=text-align:left>記事総数</td><td style=text-align:right>120件</td></tr><tr><td style=text-align:left>最終更新</td><td style=text-align:right>2025/10/25</td></tr><tr><td style=text-align:left>管理者</td><td style=text-align:right>DSプロジェクト</td></tr></tbody></table></div></nav></aside><main id=main-content><article class=wiki-article><h1>検索結果</h1><div id=search-result-container><p>検索結果を読み込み中です...</p></div></article><script>document.addEventListener("DOMContentLoaded",function(){const o=new URLSearchParams(window.location.search),e=o.get("q"),t=document.getElementById("search-result-container");if(!e){t.innerHTML="<p>検索キーワードがありません。</p>";return}t.innerHTML=`<p>「<strong>${e}</strong>」の検索結果:</p><hr><ul id="dynamic-search-results"></ul>`;const n=document.getElementById("dynamic-search-results");let s;fetch("/index.json").then(e=>e.json()).then(t=>{const i={keys:["title","content"],includeScore:!0,threshold:.3};s=new Fuse(t,i);const o=s.search(e);o.length>0?o.forEach(e=>{const s=document.createElement("li"),t=document.createElement("a");t.href=e.item.permalink,t.textContent=e.item.title,s.appendChild(t),n.appendChild(s)}):n.innerHTML="<li>一致する検索結果が見つかりませんでした。</li>"}).catch(e=>{t.innerHTML=`<p style="color: red;">検索データの読み込みに失敗しました。</p>`,console.error("Error loading search index:",e)})})</script></main></div><script src=https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js></script><script src=../js/search.js></script></body></html>
+<!DOCTYPE html>
+<html lang="ja-jp">
+<head>
+    <meta charset="utf-8">
+    <title>
+    検索結果 | DS-Wiki
+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="stylesheet" href="/css/custom.css">
+</head>
+<body>
+    <div id="wrapper">
+        
+        <aside id="sidebar-menu">
+            <nav>
+    <h3><a href="/">DS-Wiki</a></h3>
+    
+    <form action="/search/" method="GET" id="search-form">
+        <div id="search-container">
+            <input type="text" name="q" id="search-input" placeholder="記事を検索..." style="width: 90%; padding: 5px;">
+            <button type="submit" style="display:none;">検索</button> 
+        </div>
+    </form>
+     
+        
+            <h4 id="wiki-menu-header">Wiki セクション</h4> 
+        
+
+        <div class="sidebar-content-body">
+            <h2 id="ナビゲーションメニュー">ナビゲーションメニュー</h2>
+<ul>
+<li><a href="/">トップページ</a></li>
+<li><a href="/country/">国家一覧</a>
+<ul>
+<li><a href="/country/shinsyo/">曋祥</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="wiki情報テーブル">Wiki情報（テーブル）</h2>
+<p>(こんなこともできるよ)</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">項目</th>
+          <th style="text-align: right">値</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">記事総数</td>
+          <td style="text-align: right">120件</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">最終更新</td>
+          <td style="text-align: right">2025/10/25</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">管理者</td>
+          <td style="text-align: right">DSプロジェクト</td>
+      </tr>
+  </tbody>
+</table>
+
+        </div>
+    
+</nav>
+
+        </aside>
+        
+        <main id="main-content">
+            
+<article class="wiki-article">
+    <h1>検索結果</h1>
+    
+    <div id="search-result-container">
+        <p>検索結果を読み込み中です...</p>
+    </div>
+    
+</article>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const query = urlParams.get('q');
+    const container = document.getElementById('search-result-container');
+    
+    if (!query) {
+        container.innerHTML = '<p>検索キーワードがありません。</p>';
+        return;
+    }
+
+    container.innerHTML = `<p>「<strong>${query}</strong>」の検索結果:</p><hr><ul id="dynamic-search-results"></ul>`;
+    const resultsList = document.getElementById('dynamic-search-results');
+    
+    let fuse;
+
+    
+    fetch('/index.json')
+        .then(response => response.json())
+        .then(data => {
+            const options = {
+                keys: ['title', 'content'], 
+                includeScore: true,
+                threshold: 0.3 
+            };
+            fuse = new Fuse(data, options);
+            
+            
+            const results = fuse.search(query); 
+            
+            
+            if (results.length > 0) {
+                results.forEach(result => {
+                    const item = document.createElement('li');
+                    const link = document.createElement('a');
+                    link.href = result.item.permalink;
+                    link.textContent = result.item.title;
+                    item.appendChild(link);
+                    resultsList.appendChild(item);
+                });
+            } else {
+                resultsList.innerHTML = '<li>一致する検索結果が見つかりませんでした。</li>';
+            }
+        })
+        .catch(error => {
+            container.innerHTML = `<p style="color: red;">検索データの読み込みに失敗しました。</p>`;
+            console.error('Error loading search index:', error);
+        });
+});
+</script>
+
+        </main>
+        
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js"></script>
+    <script src="/js/search.js"></script>
+</body>
+</html>
